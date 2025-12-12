@@ -7,14 +7,18 @@ client = TestClient(app)
 
 def teardown_module(module):
     # clean test org collections from master_db to avoid pollution
-    db = get_master_db()
-    # remove test entries if exist
-    db["admins"].delete_many({"email": {"$regex": "test_admin"}})
-    db["organizations"].delete_many({"name": {"$regex": "test_org"}})
-    # drop tenant collection if exists
     try:
-        delete_tenant_collection("test_org")
+        db = get_master_db()
+        # remove test entries if exist
+        db["admins"].delete_many({"email": {"$regex": "test_admin"}})
+        db["organizations"].delete_many({"name": {"$regex": "test_org"}})
+        # drop tenant collection if exists
+        try:
+            delete_tenant_collection("test_org")
+        except Exception:
+            pass
     except Exception:
+        # Ignore cleanup errors
         pass
 
 

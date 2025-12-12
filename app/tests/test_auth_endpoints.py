@@ -8,9 +8,13 @@ client = TestClient(app)
 
 def teardown_module(module):
     """Clean up test data"""
-    db = get_master_db()
-    db["admins"].delete_many({"email": {"$regex": "test_"}})
-    db["organizations"].delete_many({"name": {"$regex": "test_"}})
+    try:
+        db = get_master_db()
+        db["admins"].delete_many({"email": {"$regex": "test_"}})
+        db["organizations"].delete_many({"name": {"$regex": "test_"}})
+    except Exception:
+        # Ignore cleanup errors
+        pass
 
 
 def test_admin_login_success():
