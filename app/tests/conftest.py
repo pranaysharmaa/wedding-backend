@@ -5,12 +5,14 @@ import pytest
 from app.database import get_client
 
 
-@pytest.fixture(autouse=True)
-def ensure_db_connection():
-    """Ensure database connection is available before each test."""
+@pytest.fixture(scope="session", autouse=True)
+def check_db_connection():
+    """Check database connection at the start of test session."""
     try:
         client = get_client()
         client.admin.command("ping")
     except Exception as e:
-        pytest.skip(f"MongoDB not available: {e}")
+        # Log warning but don't skip - let individual tests handle it
+        print(f"Warning: MongoDB connection check failed: {e}")
+        print("Tests will attempt to connect individually")
 
