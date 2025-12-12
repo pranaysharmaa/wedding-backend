@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    container_name: wedding-web
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    volumes:
+      - ./app:/app/app:rw
+      - ./scripts:/app/scripts:rw
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  mongo:
+    image: mongo:6.0
+    container_name: wedding-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: master_db
+    volumes:
+      - mongo_data:/data/db
+
+  init-db:
+    build: .
+    container_name: wedding-init-db
+    env_file:
+      - .env
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    command: ["python", "scripts/init_db.py"]
+    depends_on:
+      - mongo
+    # No restart; this is meant to be run as a one-shot job via `docker-compose run --rm init-db`
+
+volumes:
+  mongo_data:
