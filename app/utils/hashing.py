@@ -1,5 +1,6 @@
 import bcrypt
 
+
 def hash_password(password: str) -> str:
     """
     Hash a password using bcrypt.
@@ -14,6 +15,7 @@ def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(password_bytes, salt)
     return hashed.decode('utf-8')
+
 
 def verify_password(plain: str, hashed: str) -> bool:
     """

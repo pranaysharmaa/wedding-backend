@@ -2,7 +2,6 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.database import get_master_db
 from app.services.org_service import OrgService
-from app.services.auth_service import AuthService
 
 client = TestClient(app)
 
