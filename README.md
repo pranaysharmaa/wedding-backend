@@ -64,6 +64,7 @@ A robust, production-ready FastAPI backend service for managing wedding organiza
 - `GET /org/get?organization_name={name}` - Get organization details
 - `PUT /org/update?current_name={old}&new_name={new}` - Update organization (requires auth)
 - `DELETE /org/delete?org_name={name}` - Delete organization (requires auth)
+<img width="1004" height="731" alt="Wedding Company Backend APIs" src="https://github.com/user-attachments/assets/db6903c4-7664-4f1d-9720-b005d79a484c" />
 
 ### Authentication
 
